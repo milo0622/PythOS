@@ -1,16 +1,18 @@
 #!/bin/python3
 
-import sys
 import os
-import subprocess
 import readline
+import subprocess
+import sys
+from curses import use_default_colors
 from pathlib import Path
 
 args = sys.argv[1:]
 os.environ["PATH"] = "/usr/bin:/bin:/sbin"
 
+
 def main():
-    uInput = ""
+    user_input = ""
     while True:
         try:
             HOME = os.environ.get("HOME")
@@ -21,83 +23,81 @@ def main():
                 cwd = "~"
             if cwd.startswith(HOME + "/"):
                 cwd = cwd.replace(HOME, "~")
-            uInput = input(f"root@PythOS:{cwd}$ ")
-            uInput = uInput.strip().split()
+            user_input = input(f"root@PythOS:{cwd}$ ")
 
-            if not uInput:
-                continue
-            elif uInput[0] == "cd":
-                if not uInput[1:] or "".join(uInput[1:]).rstrip("/") == "~":
-                    if not Path(HOME).exists():
-                        print(f"pyshell: {HOME}: No such file or directory")
-                        continue
-                    else:
-                        os.chdir(HOME)
-                else:
-                    targetPath = " ".join(uInput[1:])
-                    if not Path(targetPath).exists():
-                        print(f"pyshell: {targetPath}: No such file or directory")
-                        continue
-                    else:
-                        os.chdir(targetPath)
-            elif uInput[0] == "exit":
-                sys.exit(1)
-            else:
-                targetBin = uInput[0]
-                continueLoop = True
-                for path in PATH:
-                    if continueLoop:
-                        fullPath = os.path.join(path, targetBin)
-                        if Path(fullPath).is_file():
-                            with open(fullPath, "rb") as f:
-                                start_bytes = f.read(2)
-                            if start_bytes.startswith(b"#!"):
-                                shebangPath = ""
-                                with open(fullPath, "r") as file:
-                                    shebangPath = file.read().splitlines()[0][2:].strip()
-                                    subprocess.run([shebangPath, fullPath] + uInput[1:])
-                                    continueLoop = False
-                            else:
-                                subprocess.run([fullPath] + uInput[1:])
-                                continueLoop = False
-                        else:
-                            pyFullPath = fullPath + ".py"
-                            if Path(pyFullPath).is_file():
-                                with open(pyFullPath, "rb") as f:
-                                    start_bytes = f.read(2)
-                                if start_bytes.startswith(b"#!"):
-                                    shebangPath = ""
-                                    with open(pyFullPath, "r") as file:
-                                        shebangPath = file.read().splitlines()[0][2:].strip()
-                                        subprocess.run([shebangPath, pyFullPath] + uInput[1:])
-                                        continueLoop = False
-                                else:
-                                    subprocess.run(["/bin/python3", pyFullPath] + uInput[1:])
-                                    continueLoop = False
-                            else:
-                                if Path(uInput[0]).is_file():
-                                    with open(uInput[0], "rb") as f:
-                                        startBytes = f.read(2)
-                                        if startBytes == b"#!":
-                                            with open(uInput[0], "r") as file:
-                                                shebangPath = file.read().splitlines()[0][2:].strip()
-                                                subprocess.run([shebangPath, pyFullPath] + uInput[1:])
-                                                continueLoop = False
-                                        elif uInput[0].endswith(".py"):
-                                            subprocess.run(["/bin/python3", uInput[0]] + uInput[1:])
-                                            continueLoop = False
-                                        else:
-                                            subprocess.run([uInput[0]] + uInput[1:])
-                    else:
-                        break
-                if continueLoop:
-                    print(f"{uInput[0]}: command not found")
+            process_user_input(user_input, HOME, PATH)
         except PermissionError:
-            print(f"pyshell: {uInput[0]}: Permission denied")
+            print(f"pyshell: {user_input[0]}: Permission denied")
         except KeyboardInterrupt:
             print("")
             continue
 
+
+def process_user_input(user_input, _HOME, _PATH):
+    user_input = user_input.strip().split()
+    if not user_input:
+        return
+    if user_input[0] == "exit":
+        sys.exit(1)
+    if user_input[0] == "cd":
+        if not user_input[1:] or "".join(user_input[1:]).rstrip("/") == "~":
+            target_path = _HOME
+        else:
+            target_path = " ".join(user_input[1:])
+        if not Path(target_path).exists():
+            print(f"pyshell: {target_path}: No such file or directory")
+            return
+        os.chdir(target_path)
+        return
+
+    target_bin = user_input[0]
+    cmd_found = False
+    for path in _PATH:
+        full_path = os.path.join(path, target_bin)
+        if Path(full_path).is_file():
+            with open(full_path, "rb") as f:
+                start_bytes = f.read(2)
+            if start_bytes.startswith(b"#!"):
+                shebang_path = ""
+                with open(full_path, "r") as file:
+                    shebang_path = file.read().splitlines()[0][2:].strip()
+                    subprocess.run([shebang_path, full_path] + user_input[1:])
+            else:
+                subprocess.run([full_path] + user_input[1:])
+            cmd_found = True
+            break
+
+        py_full_path = full_path + ".py"
+        if Path(py_full_path).is_file():
+            with open(py_full_path, "rb") as f:
+                start_bytes = f.read(2)
+            if start_bytes.startswith(b"#!"):
+                shebang_path = ""
+                with open(py_full_path, "r") as file:
+                    shebang_path = file.read().splitlines()[0][2:].strip()
+                    subprocess.run([shebang_path, py_full_path] + user_input[1:])
+            else:
+                subprocess.run(["/bin/python3", py_full_path] + user_input[1:])
+            cmd_found = True
+            break
+
+        if Path(user_input[0]).is_file():
+            with open(user_input[0], "rb") as f:
+                startBytes = f.read(2)
+                if startBytes == b"#!":
+                    with open(user_input[0], "r") as file:
+                        shebang_path = file.read().splitlines()[0][2:].strip()
+                        subprocess.run([shebang_path, py_full_path] + user_input[1:])
+                        cmd_found = True
+                        break
+                elif user_input[0].endswith(".py"):
+                    subprocess.run(["/bin/python3", user_input[0]] + user_input[1:])
+                    cmd_found = True
+                    break
+                else:
+                    subprocess.run([user_input[0]] + user_input[1:])
+    if not cmd_found:
+        print(f"{user_input[0]}: command not found")
 
 
 if __name__ == "__main__":
