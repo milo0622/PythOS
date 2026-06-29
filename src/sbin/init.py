@@ -10,11 +10,12 @@ if len(args) >= 1:
     if args[0] == "dev":
         debug = True
 shellPath = "bin/pysh.py" if debug else "/bin/pysh.py"
+pythonPath = "/opt/homebrew/bin/python3" if debug else "/bin/python3"
 
 def main():
     showInitMessage()
     try:
-        proc = subprocess.run(["/bin/python3", shellPath], check=True)
+        proc = subprocess.run([pythonPath, shellPath], check=True)
     except subprocess.CalledProcessError as e:
         if e.returncode == 1:
             pass
@@ -22,19 +23,23 @@ def main():
             print(f"Failed to initialize PyShell, error: {e}")
         while True:
             try:
-                curses.wrapper(logonMenu)
+                action = curses.wrapper(logonMenu)
+                if action == "LOGON":
+                    subprocess.run([pythonPath, shellPath])
             except KeyboardInterrupt:
                 continue
 
 def showInitMessage(path="/etc/pysh_wmsg"):
-    with open(path, "r") as f:
-        welcomeMsg = f.read().splitlines()
-        f.close()
-    for line in welcomeMsg:
-        if line.strip().startswith("#"):
-            continue
-        print(line)
-
+    try:
+        with open(path, "r") as f:
+            welcomeMsg = f.read().splitlines()
+            f.close()
+        for line in welcomeMsg:
+            if line.strip().startswith("#"):
+                continue
+            print(line)
+    except FileNotFoundError:
+        return
 def drawMenu(stdscr, menu, selected, title, additionalTitle=""):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
@@ -91,8 +96,9 @@ def logonMenu(stdscr):
         elif key in (curses.KEY_ENTER, 10, 13):
             if menu[selected] == "LOGON":
                 stdscr.clear()
+                curses.curs_set(1)
                 curses.endwin()
-                execution = ["/bin/python3", shellPath]
+                return "LOGON"
             elif menu[selected] == "POWER OFF":
                 additionalTitle = "The system will shutdown NOW!"
                 execution = ["/sbin/shutdown"]
@@ -112,7 +118,10 @@ def logonMenu(stdscr):
 
                 subprocess.run(execution)
                 continue
-            subprocess.run(execution)
+            try:
+                subprocess.run(execution, check=True)
+            except subprocess.CalledProcessError as e:
+                continue
 
 if __name__ == "__main__":
     main()
