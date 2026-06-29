@@ -19,7 +19,7 @@ int main() {
     extern char **environ;
 
     setenv("HOME", "/root", 1);
-    setenv("PATH", "/bin:/usr/bin", 1);
+    setenv("PATH", "/bin:/usr/bin:/sbin", 1);
 
     execve(python_args[0], python_args, environ);
     
