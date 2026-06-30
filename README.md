@@ -1,3 +1,4 @@
+![PythOS banner](PythOS.png)
 # PythOS
 
 A lightweight Linux distro written *almost* completely with Python!
