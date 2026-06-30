@@ -31,7 +31,7 @@ def main():
     HOME = os.getenv("HOME")
     PATH = os.getenv("PATH")
     if not isinstance(PATH, str):
-        PATH = "/bin:/sbin".split(":")
+        PATH = "/bin:/sbin:/usr/bin".split(":")
     else:
         PATH = PATH.split(":")
     if not Path(HOME).exists():
@@ -126,8 +126,8 @@ def exec(binPath:str, args:list):
     try:
         if binPath.endswith(".py"):
             args.insert(0, binPath)
-            if Path("/bin/python3").is_file():
-                args.insert(0, "/bin/python3")
+            if Path("/usr/bin/python3").is_file():
+                args.insert(0, "/usr/bin/python3")
             else:
                 args.insert(0, "/opt/homebrew/bin/python3") # Debug for my mac
             subprocess.run(args=args, check=True, shell=False)

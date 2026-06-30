@@ -1,7 +1,6 @@
-import os
-from pathlib import Path
 import sys
-
+import os
+from pathlib import Path    
 args = sys.argv[1:]
 
 def main():
@@ -10,9 +9,9 @@ def main():
         targetPath = "."
         for item in Path(targetPath).iterdir():
             if item.is_dir():
-                print(item + "/", end="    ")
+                print(item.name + "/", end="    ")
             else:
-                print(item, end="    ")
+                print(item.name, end="    ")
         print("")
     else:
         if len(args) > 1:
@@ -42,6 +41,5 @@ def main():
                     print(item)
                 elif not Path(item).exists():
                     print(f"ls: cannot access '{item}': No such file or directory")
-
 if __name__ == "__main__":
     main()
