@@ -22,7 +22,7 @@ def main():
                         if file.is_dir():
                             print(f"{file.name}/", end="    ")
                         else:
-                            print(f"{file.name}/", end="    ")
+                            print(f"{file.name}", end="    ")
                     print("")
                 elif Path(item).is_file():
                     print(item)

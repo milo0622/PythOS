@@ -48,7 +48,13 @@ def main():
             continue
 
         uInput = uInput.split()
+        for idx, arg in enumerate(uInput):
+            if arg.startswith("~"):
+                uInput[idx] = f"{HOME}{arg[1:]}"
         cmd = uInput[0]
+        if Path(cmd).is_dir():
+            print(f"pysh: {cmd}: Permission denied")
+            continue
         if cmd == "exit":
             print("logout")
             sys.exit(1)
