@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 import os
 import subprocess
+import shlex
 
 DEFAULTMSG = "Welcome to PythOS!"
 
@@ -47,7 +48,7 @@ def main():
         if not uInput.strip():
             continue
 
-        uInput = uInput.split()
+        uInput = shlex.split(uInput)
         for idx, arg in enumerate(uInput):
             if arg.startswith("~"):
                 uInput[idx] = f"{HOME}{arg[1:]}"
