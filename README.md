@@ -30,3 +30,34 @@ The central interactive command-line interpreter executing the user loop.
 Handcrafted Python implementations of traditional system utilities optimized with standard `argparse` execution schemas.
 
 ---
+
+### How to dualboot
+**(for Windows users. Skip if you know how to dualboot Linux, but please do not ignore step 6 when flashing):**
+*Prerequisites:*
+- Rufus (download from [here](https://rufus.ie))
+- PythOS ISO (download from below)
+- A USB (at least 200MB)
+
+*Steps:*
+1. Plug in your USB and run Rufus you have just downloaded
+2. Select your USB device in the "Device" dropdown menu
+3. In the "Boot selection" dropdown, select "Disk or ISO image (Please select)"
+4. Select PythOS ISO file
+5. Click START
+6. Select DD mode as the flash mode instead of ISO mode (ISO mode will NOT work) and click OK
+7. Wait for it to flash
+8. Reboot your computer after flashing and enter UEFI boot menu
+9. Select the USB flash drive 
+10. Select PythOS Phoenix
+11. ENJOY!
+
+---
+
+### How the OS works:
+1. Boots grub bootloader
+2. Boots Linux kernel
+3. Loads init script
+4. Loads init.py from sbin/
+5. Tries to load pysh.py from bin/
+-> If fails or user exits pyshell, it falls back to init.py as a logon menu (written with ncurses)
+- This is a protection mechanism that prevents kernel panic (which needs us to force reboot the PC)
