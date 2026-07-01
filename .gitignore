@@ -7,3 +7,4 @@ src/ncurses
 src/readline
 iso
 rootfs
+src/linux
