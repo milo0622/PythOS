@@ -25,6 +25,7 @@ def main():
             try:
                 action = curses.wrapper(logonMenu)
                 if action == "LOGON":
+                    os.chdir(os.getenv("HOME"))
                     subprocess.run([pythonPath, shellPath])
             except KeyboardInterrupt:
                 continue
