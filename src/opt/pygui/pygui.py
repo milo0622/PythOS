@@ -2,6 +2,7 @@ import sys
 sys.path.insert(0, "/opt/pygui/")
 from lib.initialization import *
 from lib.server import *
+from lib.windowapi import *
 import pygame
 
 def main():
@@ -26,6 +27,9 @@ def mainloop(sysServer, fps=60):
         
         sysServer.drawWallpaper()
 
+	testing = WindowAPI(screen, x=0, y=0, width=400, height=300, title="Testing", close=True)
+	testing.drawWindow()
+	
         pygame.display.flip()
 
 if __name__ == "__main__":
