@@ -17,6 +17,7 @@ def main():
 def mainloop(sysServer, fps=60):
     clock = pygame.time.Clock()
     running = True
+    testing = WindowAPI(screen, x=0, y=0, width=400, height=300, title="Testing", close=True)
 
     while running:
         clock.tick(fps)
@@ -27,8 +28,7 @@ def mainloop(sysServer, fps=60):
         
         sysServer.drawWallpaper()
 
-	testing = WindowAPI(screen, x=0, y=0, width=400, height=300, title="Testing", close=True)
-	testing.drawWindow()
+        testing.drawWindow()
 	
         pygame.display.flip()
 
