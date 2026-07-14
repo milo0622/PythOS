@@ -8,3 +8,4 @@ src/readline
 iso
 rootfs
 src/linux
+**/debug.txt

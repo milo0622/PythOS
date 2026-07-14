@@ -2,35 +2,42 @@ import sys
 sys.path.insert(0, "/opt/pygui/")
 from lib.initialization import *
 from lib.server import *
-from lib.windowapi import *
+from lib.uiapi import *
 import pygame
 
-def main():
-    fbPreload()
-    initialization = init(pygame, mS=2.5)
-    screen, w, h = initialization.initPyGame()
-    curX, curY = initialization.initMouse()
+class PyGUI:
+    def __init__(self):
+        fbPreload()
+        initialization = init(pygame, mS=2.5)
+        self.screen, self.w, self.h = initialization.initPyGame()
+        self.curX, self.curY = initialization.initMouse()
 
-    sysServer = SysServer(pygame, screen, w, h)
-    mainloop(sysServer)
+    def main(self):
+        self.sysServer = SysServer(pygame, self.screen, self.w, self.h)
+        self.mainloop()
 
-def mainloop(sysServer, fps=60):
-    clock = pygame.time.Clock()
-    running = True
-    testing = WindowAPI(screen, x=0, y=0, width=400, height=300, title="Testing", close=True)
+    def mainloop(self, fps=60):
+        clock = pygame.time.Clock()
+        running = True
+        window, ID = self.sysServer.initWindow(w=400, h=300, title="About PythOS", close=True, fontPath=None)
 
-    while running:
-        clock.tick(fps)
+        while running:
+            try:
+                clock.tick(fps)
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        
-        sysServer.drawWallpaper()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                
+                self.sysServer.drawWallpaper()
 
-        testing.drawWindow()
-	
-        pygame.display.flip()
+                for window in self.sysServer.windows.keys():
+                    self.sysServer.windows[window].drawWindow()
+            
+                pygame.display.flip()
+            except (KeyboardInterrupt, EOFError):
+                print("\033[?25h")
+                break
 
 if __name__ == "__main__":
-    main()
+    gui = PyGUI().main()
