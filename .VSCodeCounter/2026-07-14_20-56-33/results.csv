@@ -1,0 +1,26 @@
+"filename", "language", "Python", "Properties", "C", "Markdown", "comment", "blank", "total"
+"/home/miloc/PythOS/README.md", "Markdown", 0, 0, 0, 48, 0, 15, 63
+"/home/miloc/PythOS/src/bin/cat.py", "Python", 68, 0, 0, 0, 0, 6, 74
+"/home/miloc/PythOS/src/bin/clear.py", "Python", 5, 0, 0, 0, 0, 1, 6
+"/home/miloc/PythOS/src/bin/cp.py", "Python", 74, 0, 0, 0, 0, 8, 82
+"/home/miloc/PythOS/src/bin/date.py", "Python", 6, 0, 0, 0, 0, 2, 8
+"/home/miloc/PythOS/src/bin/echo.py", "Python", 19, 0, 0, 0, 0, 4, 23
+"/home/miloc/PythOS/src/bin/ls.py", "Python", 44, 0, 0, 0, 0, 2, 46
+"/home/miloc/PythOS/src/bin/mkdir.py", "Python", 44, 0, 0, 0, 0, 9, 53
+"/home/miloc/PythOS/src/bin/pwd.py", "Python", 5, 0, 0, 0, 0, 2, 7
+"/home/miloc/PythOS/src/bin/pysh.py", "Python", 148, 0, 0, 0, 0, 10, 158
+"/home/miloc/PythOS/src/bin/rm.py", "Python", 72, 0, 0, 0, 0, 5, 77
+"/home/miloc/PythOS/src/bin/touch.py", "Python", 61, 0, 0, 0, 0, 7, 68
+"/home/miloc/PythOS/src/bin/uname.py", "Python", 49, 0, 0, 0, 0, 11, 60
+"/home/miloc/PythOS/src/boot/grub/grub.cfg", "Properties", 0, 36, 0, 0, 0, 6, 42
+"/home/miloc/PythOS/src/opt/pygui/bin/About PythOS.py", "Python", 0, 0, 0, 0, 0, 1, 1
+"/home/miloc/PythOS/src/opt/pygui/lib/initialization.py", "Python", 27, 0, 0, 0, 0, 14, 41
+"/home/miloc/PythOS/src/opt/pygui/lib/server.py", "Python", 25, 0, 0, 0, 0, 8, 33
+"/home/miloc/PythOS/src/opt/pygui/lib/uiapi.py", "Python", 110, 0, 0, 0, 0, 36, 146
+"/home/miloc/PythOS/src/opt/pygui/pygui.py", "Python", 34, 0, 0, 0, 0, 10, 44
+"/home/miloc/PythOS/src/sbin/halt.c", "C", 0, 0, 14, 0, 0, 5, 19
+"/home/miloc/PythOS/src/sbin/init.c", "C", 0, 0, 22, 0, 0, 7, 29
+"/home/miloc/PythOS/src/sbin/init.py", "Python", 117, 0, 0, 0, 0, 12, 129
+"/home/miloc/PythOS/src/sbin/reboot.c", "C", 0, 0, 14, 0, 0, 3, 17
+"/home/miloc/PythOS/src/sbin/shutdown.c", "C", 0, 0, 14, 0, 0, 2, 16
+"Total", "-", 908, 36, 64, 48, 0, 186, 1242

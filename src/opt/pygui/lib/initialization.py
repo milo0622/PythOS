@@ -23,7 +23,7 @@ class init:
 
         self.w, self.h = displayInfo.current_w, displayInfo.current_h
 
-        print(f"Framebuffer mode: {self.w}x{self.h}\033[?25l")
+        print(f"Framebuffer mode: {self.w}x{self.h}")
 
         self.pygame.init()
         return self.pygame.display.set_mode((self.w, self.h)), self.w, self.h
