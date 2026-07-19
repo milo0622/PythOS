@@ -133,10 +133,10 @@ def exec(binPath:str, args:list):
     try:
         if binPath.endswith(".py"):
             args.insert(0, binPath)
-            if Path("/usr/bin/python3").is_file():
+            if open(binPath, "r").read().startswith("#!"):
+                pass
+            else: 
                 args.insert(0, "/usr/bin/python3")
-            else:
-                args.insert(0, "/opt/homebrew/bin/python3") # Debug for my mac
             subprocess.run(args=args, check=True, shell=False)
             return
         else:

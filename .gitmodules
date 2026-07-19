@@ -1,0 +1,6 @@
+[submodule "pygui"]
+	path = pygui
+	url = https://github.com/milo0622/pygui.git
+[submodule "src/opt/pygui"]
+	path = src/opt/pygui
+	url = https://github.com/milo0622/pygui.git

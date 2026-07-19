@@ -10,7 +10,7 @@ if len(args) >= 1:
     if args[0] == "dev":
         debug = True
 shellPath = "bin/pysh.py" if debug else "/bin/pysh.py"
-pythonPath = "/opt/homebrew/bin/python3" if debug else "/usr/bin/python3"
+pythonPath =  "/usr/bin/python3"
 
 def main():
     showInitMessage()
