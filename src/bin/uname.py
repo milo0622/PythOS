@@ -50,10 +50,6 @@ def machineInfo():
     print(platform.machine(), end=ending)
 
 def OSInfo():
-    if platform.system() == "Linux":
-        print("GNU/Linux")
-        return
-    
     print(platform.system())
 
 if __name__ == "__main__":
