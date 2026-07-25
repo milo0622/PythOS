@@ -9,3 +9,4 @@ iso
 rootfs
 src/linux
 **/debug.txt
+.VSCodeCounter/
